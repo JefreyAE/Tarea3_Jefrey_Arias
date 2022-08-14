@@ -28,6 +28,29 @@ namespace API_Tarea3.Services
 
             try
             {
+                List<Appointment> listAll = this.appDbContext.Appointments.Select(a => a).ToList();
+                if (listAll != null)
+                {
+                    DateTime dateTimeNow = DateTime.Now;
+                    int hourNow = dateTimeNow.Hour;
+                    foreach (Appointment appointmentD in listAll)
+                    {
+                        if (appointmentD.Appointment_date >= dateTimeNow)
+                        {
+                            Agenda agenda = this.appDbContext.Agendas.FirstOrDefault(a => a.AppointmentId == appointmentD.Id);
+                            if (agenda != null)
+                            {
+                                if (hourNow > agenda.Hour)
+                                {
+                                    agenda.State = "Acudió";
+                                }
+                                this.appDbContext.Agendas.Update(agenda);
+                                this.appDbContext.SaveChanges();
+                            }
+                        }
+                    }
+                }
+
                 if (userId == null || birthday == null)
                 {
                     response.Success = false;

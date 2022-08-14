@@ -7,8 +7,56 @@ function confirmar(event) {
         event.preventDefault();
     }
 }
+function cerrar(event) {
+    let isExecuted = confirm("¿Desea cerrar la sesión?");
+    if (!isExecuted) {
+        event.preventDefault();
+    }
+}
 
+var form_registerUser = document.getElementById("form_registerUser");
 
+if (form_registerUser != null) {
+    var input_Name = document.getElementById("Name");
+    var input_UserId = document.getElementById("UserId");
+    var input_Birthday = document.getElementById("Birthday");
+    var input_Payment_method = document.getElementById("Payment_method");
+
+    var btn_registerUser = document.getElementById("btn_registerUser");
+
+    btn_registerUser.disabled = true;
+
+    input_Name.addEventListener('keyup', () => {
+        check_registerUser();
+    });
+    input_UserId.addEventListener('keyup', () => {
+        check_registerUser();
+    });
+    input_Birthday.addEventListener('keyup', () => {
+        check_registerUser();
+    });
+    input_Birthday.addEventListener('change', () => {
+        check_registerUser();
+    });
+    input_Payment_method.addEventListener('keyup', () => {
+        check_registerUser();
+    });
+}
+
+function check_registerUser(){
+    var input_Name = document.getElementById("Name");
+    var input_UserId = document.getElementById("UserId");
+    var input_Birthday = document.getElementById("Birthday");
+    var input_Payment_method = document.getElementById("Payment_method");
+
+    var btn_registerUser = document.getElementById("btn_registerUser");
+
+    if (input_Name.value == "" || input_UserId.value == "" || input_Birthday.value == "" || input_Payment_method.value == "") {
+        btn_registerUser.disabled = true;
+    } else {
+        btn_registerUser.disabled = false;
+    }
+}
 
 var form_appointment = document.getElementById("create_appointment");
 

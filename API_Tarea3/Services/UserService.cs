@@ -21,6 +21,14 @@ namespace API_Tarea3.Services
 
             try
             {
+                var exists = await this.appDbContext.Users.FirstOrDefaultAsync(u => u.UserId == user.UserId);
+                if (exists != null)
+                {
+                    response.Success = false;
+                    response.Message = "El usuario ya se encuentra registrado";
+                    return response;
+                }
+
                 await this.appDbContext.Users.AddAsync(user);
                 await this.appDbContext.SaveChangesAsync();
 

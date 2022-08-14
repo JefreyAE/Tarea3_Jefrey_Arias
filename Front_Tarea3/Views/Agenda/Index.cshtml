@@ -56,12 +56,12 @@
                 @Html.DisplayFor(modelItem => item.State)
             </td>
             <td>
-                @Html.ActionLink("Details", "Details", new {  id=item.Id })
+                @Html.ActionLink("Detalle", "Details", new {  id=item.Id })
             </td>
             <td>
                 @if (item.State == "Activa")
                 {
-                    @Html.ActionLink("Delete", "Delete", new {  id=item.Id })
+                    <a href="/Agenda/Delete/@item.Id" onclick="confirmar(event)">Borrar</a>
                 }
             </td>
         </tr>

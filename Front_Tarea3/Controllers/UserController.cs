@@ -45,6 +45,16 @@ namespace Front_Tarea3.Controllers
                 user.Birthday = Convert.ToDateTime(collection["Birthday"]);
                 user.Payment_method = collection["Payment_method"];
 
+                DateTime dateNow = DateTime.Now;
+
+                int yearsAge = (dateNow - user.Birthday).Days/365;
+
+                if(yearsAge <= 15)
+                {
+                    ViewData["Message_error"] = "No cuenta con la edad requerida para registrarse en el sistema. ( 15 años ).";
+                    return View();
+                }
+
                 var response = await this._userService.AddUser(user);
                 if (response != null)
                 {
@@ -55,7 +65,7 @@ namespace Front_Tarea3.Controllers
                     }
                     else
                     {
-                        ViewData["Message_error"] = "Ocurrio un error al registrarse.";
+                        ViewData["Message_error"] = response.Message;
                         return View();
                     }
                 }

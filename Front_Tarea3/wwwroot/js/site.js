@@ -1,5 +1,15 @@
 ﻿var url_base = "https://localhost:7146/api";
 
+
+function confirmar(event) {
+    let isExecuted = confirm("¿Deseas borrar esta cita?");
+    if (!isExecuted) {
+        event.preventDefault();
+    }
+}
+
+
+
 var form_appointment = document.getElementById("create_appointment");
 
 if (form_appointment != null) {
@@ -14,14 +24,62 @@ if (form_appointment != null) {
 
     btn_appointment.disabled = true;
     input_Hour.disabled = true;
+    input_Specialty.disabled = true;
+
+    input_Appointment_date.addEventListener("change", () => {
+
+        var dateSelected = new Date(input_Appointment_date.value);
+        var dayOfWeek = dateSelected.getDay();
+        var dateNow = new Date();
+
+        if (dayOfWeek == 5 || dayOfWeek == 6) {
+            alert("El horario es de lunes a viernes de 8 am a 11am y de 1 pm a 4pm");
+            btn_appointment.disabled = true;
+            input_Hour.disabled = true;
+            input_Specialty.disabled = true;
+        } else {
+            input_Specialty.disabled = false;
+            var difDays = (dateSelected.getTime() - dateNow.getTime()) / (1000 * 60 * 60 * 24);
+
+            if (difDays < 0) {
+                alert("Solo puede seleccionar una fecha para su cita de mañana en adelante.");
+                btn_appointment.disabled = true;
+                input_Hour.disabled = true;
+                input_Specialty.disabled = true;
+            }
+            if (difDays > 22) {
+                alert("Solo puede agendar citas hasta 22 días a partir de la fecha actual.");
+                btn_appointment.disabled = true;
+                input_Hour.disabled = true;
+                input_Specialty.disabled = true;
+            }
+        }
+        if (input_Appointment_date.value == "") {
+            btn_appointment.disabled = true;
+            input_Hour.disabled = true;
+            input_Specialty.disabled = true;
+        }
+    });
 
     input_Specialty.addEventListener("change", () => {
-        checkAgendaAvailability(); 
+        if (input_Appointment_date.value != "") {
+            checkAgendaAvailability();
+        } else {
+            btn_appointment.disabled = true;
+            input_Hour.disabled = true;
+            input_Specialty.disabled = true;
+        }
+        console.log(input_Appointment_date.value);
     });
 
     btn_appointment.addEventListener("mouseover", () => {
 
          //checkAgendaAvailability();
+        if (input_Appointment_date.value == "") {
+            btn_appointment.disabled = true;
+            input_Hour.disabled = true;
+            input_Specialty.disabled = true;
+        }
         
     });
 

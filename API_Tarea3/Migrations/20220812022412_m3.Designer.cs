@@ -4,6 +4,7 @@ using API_Tarea3.DataContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API_Tarea3.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220812022412_m3")]
+    partial class m3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -64,9 +66,6 @@ namespace API_Tarea3.Migrations
                     b.Property<DateTime>("Appointment_date")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("Created_at")
-                        .HasColumnType("datetime2");
-
                     b.Property<int?>("UserId")
                         .HasColumnType("int");
 
@@ -104,13 +103,11 @@ namespace API_Tarea3.Migrations
 
             modelBuilder.Entity("API_Tarea3.Models.Agenda", b =>
                 {
-                    b.HasOne("API_Tarea3.Models.Appointment", "Appointment")
-                        .WithMany("AgendaList")
+                    b.HasOne("API_Tarea3.Models.Appointment", null)
+                        .WithMany("Agendas")
                         .HasForeignKey("AppointmentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Appointment");
                 });
 
             modelBuilder.Entity("API_Tarea3.Models.Appointment", b =>
@@ -122,7 +119,7 @@ namespace API_Tarea3.Migrations
 
             modelBuilder.Entity("API_Tarea3.Models.Appointment", b =>
                 {
-                    b.Navigation("AgendaList");
+                    b.Navigation("Agendas");
                 });
 
             modelBuilder.Entity("API_Tarea3.Models.User", b =>

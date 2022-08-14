@@ -4,6 +4,7 @@ using API_Tarea3.DataContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API_Tarea3.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220813144125_agendalist")]
+    partial class agendalist
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -64,9 +66,6 @@ namespace API_Tarea3.Migrations
                     b.Property<DateTime>("Appointment_date")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("Created_at")
-                        .HasColumnType("datetime2");
-
                     b.Property<int?>("UserId")
                         .HasColumnType("int");
 
@@ -104,13 +103,11 @@ namespace API_Tarea3.Migrations
 
             modelBuilder.Entity("API_Tarea3.Models.Agenda", b =>
                 {
-                    b.HasOne("API_Tarea3.Models.Appointment", "Appointment")
+                    b.HasOne("API_Tarea3.Models.Appointment", null)
                         .WithMany("AgendaList")
                         .HasForeignKey("AppointmentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Appointment");
                 });
 
             modelBuilder.Entity("API_Tarea3.Models.Appointment", b =>

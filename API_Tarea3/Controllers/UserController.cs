@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API_Tarea3.Controllers
 {
-    [Authorize]
+    
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
@@ -30,6 +30,7 @@ namespace API_Tarea3.Controllers
         }
 
         // GET api/<UserController>/5
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<ServiceResponse<User>>> Get(int id)
         {
@@ -46,6 +47,7 @@ namespace API_Tarea3.Controllers
         }
 
         // PUT api/<UserController>/
+        [Authorize]
         [HttpPut]
         public async Task<ActionResult<ServiceResponse<User>>> Put([FromBody] User user)
         {
@@ -54,6 +56,7 @@ namespace API_Tarea3.Controllers
         }
 
         // DELETE api/<UserController>/5
+        [Authorize]
         [HttpDelete("{id}")]
         public async Task<ActionResult<ServiceResponse<bool>>> Delete(int id)
         {

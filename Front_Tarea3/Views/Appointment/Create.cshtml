@@ -1,40 +1,53 @@
 ﻿@model Front_Tarea3.Models.Appointment
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Registrar cita";
 }
 
-<h1>Create</h1>
-
-<h4>Appointment</h4>
+<h1>Registra tu cita</h1>
+<h3>Bienvenido @ViewData["name"]</h3>
+<h4>Selecciona la especialidad y la hora de la cita</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+         @if (ViewData["Message_error"] != null)
+        {
+            <label class="message_error alert alert-danger">@ViewData["Message_error"]</label>     
+        }
+         @if (ViewData["Message_success"] != null)
+        {
+            <label class="message_success alert alert-success">@ViewData["Message_success"]</label>     
+        }
+        <form id="create_appointment" asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>    
+            <input id="item" type="hidden" value="@ViewData["item"]" />
+            <input id="id" type="hidden" value="@ViewData["id"]" />
             <div class="form-group">
-                <label asp-for="Appointment_date" class="control-label"></label>
-                <input asp-for="Appointment_date" class="form-control" />
+                <label asp-for="Appointment_date" class="control-label">Fecha de la cita</label>
+                <input type="date" asp-for="Appointment_date" class="form-control" />
                 <span asp-validation-for="Appointment_date" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Specialty" class="control-label"></label>
-                <input asp-for="Specialty" class="form-control" />
-                <span asp-validation-for="Specialty" class="text-danger"></span>
+                <label for="Specialty" class="control-label">Selecciona la especialidad</label>
+                <select id="Specialty" name="Specialty" class="form-control">
+                    <option value="" selected></option>
+                    <option value="Laboral">Laboral</option>
+                    <option value="Penal">Penal</option>
+                    <option value="Familia">Familia</option>
+                    <option value="Civil">Civil</option>
+                    <option value="Comercio">Comercio</option>
+                    <option value="Notariado">Notariado</option>
+                </select>
             </div>
             <div class="form-group">
-                <label asp-for="State" class="control-label"></label>
-                <input asp-for="State" class="form-control" />
-                <span asp-validation-for="State" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="UserId" class="control-label"></label>
-                <input asp-for="UserId" class="form-control" />
-                <span asp-validation-for="UserId" class="text-danger"></span>
+                <label class="control-label">Hora de la cita:</label>
+                <select id="hour" name="hour" class="form-control">
+                    
+                </select>
             </div>
             <br />
             <div class="form-group">
-                <input type="submit" value="Registrar" class="btn btn-primary" />
+                <input id="btn_appointment" type="submit" value="Registrar cita" class="btn btn-primary" />
             </div>
         </form>
     </div>

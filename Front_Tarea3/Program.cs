@@ -19,6 +19,7 @@ builder.Services.AddSession(options =>
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ILoginService, LoginService>();
 builder.Services.AddScoped<IAppointmentService, AppointmentService>();
+builder.Services.AddScoped<IAgendaService, AgendaService>();
 builder.Services.AddScoped<IProtectionRoutesService, ProtectionRoutesService>();
 
 var app = builder.Build();
@@ -43,6 +44,6 @@ app.UseSession();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Login}/{action=Index}/{id?}");
+    pattern: "{controller=Login}/{action=Login}/{id?}");
 
 app.Run();

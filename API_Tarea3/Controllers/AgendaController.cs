@@ -43,6 +43,21 @@ namespace API_Tarea3.Controllers
             return response.Success == true ? Ok(response) : StatusCode(500, response);
         }
 
+        // GET api/<AgendaController>/agendabyappointmentid/5
+        [HttpGet("list/{userId}")]
+        public async Task<ActionResult<ServiceResponse<List<Agenda>>>> GetAgendaByUser(int userId)
+        {
+            var response = await this._agendaService.GetAgendaByUser(userId);
+            return response.Success == true ? Ok(response) : StatusCode(500, response);
+        }
+
+        [HttpGet("agendaAvability/{userId}/{specialty}")]
+        public async Task<ActionResult<ServiceResponse<bool>>> CheckAgendaBySpecialtyAndUser(int userId, string specialty)
+        {
+            var response = await this._agendaService.checkAgendaBySpecialtyAndUser(userId, specialty);
+            return response.Success == true ? Ok(response) : StatusCode(500, response);
+        }
+
         // POST api/<AgendaController>
         [HttpPost]
         public async Task<ActionResult<ServiceResponse<Agenda>>> Post([FromBody] Agenda agenda)

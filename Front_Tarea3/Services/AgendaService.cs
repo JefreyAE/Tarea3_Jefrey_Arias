@@ -1,5 +1,8 @@
-﻿using Front_Tarea3.Interfaces;
+﻿using Front_Tarea3.Helpers;
+using Front_Tarea3.Interfaces;
 using Front_Tarea3.Models;
+using Newtonsoft.Json;
+using System.Text;
 
 namespace Front_Tarea3.Services
 {
@@ -14,34 +17,65 @@ namespace Front_Tarea3.Services
             _urlbase = builder.GetSection("ApiSettings:baseUrl").Value;
 
             this._httpClient.BaseAddress = new Uri(_urlbase);
+            this._httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue($"Bearer", $"{TokenKeeper.Token}");
         }
 
-        public Task<Agenda> AddAgenda(Agenda agenda)
+        public async Task<ServiceResponse<Agenda>> AddAgenda(Agenda agenda)
+        {
+            var json = JsonConvert.SerializeObject(agenda);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await _httpClient.PostAsync("api/Agenda", content);
+            var json_response = await response.Content.ReadAsStringAsync();
+
+            var result = JsonConvert.DeserializeObject<ServiceResponse<Agenda>>(json_response);
+
+            return result;
+        }
+
+        public async Task<ServiceResponse<List<Agenda>>> GetAgendaByUser(int UserId)
+        {
+            var response = await _httpClient.GetAsync("api/Agenda/list/" + UserId);
+            var json_response = await response.Content.ReadAsStringAsync();
+
+            var result = JsonConvert.DeserializeObject <ServiceResponse<List<Agenda>>>(json_response);
+
+            return result;
+        }
+
+        public async Task<ServiceResponse<bool>> DeleteAgenda(int id)
+        {
+            var response = await _httpClient.DeleteAsync("api/Agenda/" + id);
+            var json_response = await response.Content.ReadAsStringAsync();
+
+            var result = JsonConvert.DeserializeObject<ServiceResponse<bool>>(json_response);
+
+            return result;
+        }
+
+        public async Task<ServiceResponse<Agenda>> GetAgenda(int id)
+        {
+            var response = await _httpClient.GetAsync("api/Agenda/" + id);
+            var json_response = await response.Content.ReadAsStringAsync();
+
+            var result = JsonConvert.DeserializeObject<ServiceResponse<Agenda>>(json_response);
+
+            return result;
+        }
+
+        public Task<ServiceResponse<Agenda>> GetAgendaByAppointmentId(int id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<bool> DeleteAgenda(int id)
+        public Task<ServiceResponse<List<Agenda>>> GetAllAgenda()
         {
             throw new NotImplementedException();
         }
 
-        public Task<Agenda> GetAgenda(int id)
-        {
-            throw new NotImplementedException();
-        }
 
-        public Task<Agenda> GetAgendaByAppointmentId(int id)
-        {
-            throw new NotImplementedException();
-        }
 
-        public Task<List<Agenda>> GetAllAgenda()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Agenda> UpdateAgenda(Agenda agenda)
+        public Task<ServiceResponse<Agenda>> UpdateAgenda(Agenda agenda)
         {
             throw new NotImplementedException();
         }

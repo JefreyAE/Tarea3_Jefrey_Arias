@@ -29,40 +29,7 @@ namespace API_Tarea3.Controllers
         public async Task<ActionResult<ServiceResponse<User>>> Login(User user)
         {
             var response = await this._loginService.LoginUser(user.UserId, user.Birthday);
-
-            try
-            {
-                if (response.Data != null)
-                {
-                    var claims = new[] {
-                        new Claim(JwtRegisteredClaimNames.Sub, _configuration["Jwt:Subject"]),
-                        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                        new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()),
-                        new Claim("Id", response.Data.Id.ToString()),
-                        new Claim("Name", response.Data.Name),
-                        new Claim("UserId", response.Data.UserId.ToString()),
-                        new Claim("Birthday", response.Data.Birthday.ToString())
-                    };
-
-                    var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
-                    var signIn = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-                    var token = new JwtSecurityToken(
-                        _configuration["Jwt:Issuer"],
-                        _configuration["Jwt:Audience"],
-                        claims,
-                        expires: DateTime.UtcNow.AddMinutes(10),
-                        signingCredentials: signIn);
-                    return response.Success == true ? Ok(new JwtSecurityTokenHandler().WriteToken(token)) : StatusCode(500, response);
-                }
-                else
-                {
-                    return StatusCode(500, response);
-                }
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, ex.Message);
-            }
+            return response.Success == true ? Ok(response) : StatusCode(500, response);
         }
     }
 }

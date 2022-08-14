@@ -1,0 +1,70 @@
+﻿@model IEnumerable<Front_Tarea3.Models.Agenda>
+
+@{
+    ViewData["Title"] = "Listado de citas";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-area="" asp-controller="Appointment" asp-action="Create">Crear cita</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Hour)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Specialty)
+            </th>
+            <th>
+                Fecha de creación
+            </th>
+            <th>
+                Fecha de la cita
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.State)
+            </th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Hour)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Specialty)
+            </td>
+            <td>
+                @item.Appointment.Created_at.ToShortDateString()
+            </td>
+            <td>
+                @item.Appointment.Appointment_date.ToShortDateString()
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.State)
+            </td>
+            <td>
+                @Html.ActionLink("Details", "Details", new {  id=item.Id })
+            </td>
+            <td>
+                @if (item.State == "Activa")
+                {
+                    @Html.ActionLink("Delete", "Delete", new {  id=item.Id })
+                }
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -1,0 +1,47 @@
+﻿@model Front_Tarea3.Models.Agenda
+
+@{
+    ViewData["Title"] = "Detalle";
+}
+
+<h1>Detalle de la cita</h1>
+
+<div>
+    <h4>Agenda</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            Hora
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Hour)
+        </dd>
+        <dt class = "col-sm-2">
+            Especialidad
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Specialty)
+        </dd>
+        <dt class = "col-sm-2">
+            Fecha de creación
+        </dt>
+        <dd class = "col-sm-10">
+            @Model.Appointment.Created_at.ToShortDateString()
+        </dd>
+        <dt class = "col-sm-2">
+            Fecha de la cita
+        </dt>
+        <dd class = "col-sm-10">
+            @Model.Appointment.Appointment_date.ToShortDateString()
+        </dd>
+        <dt class = "col-sm-2">
+            Estado
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.State)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Index">Ver la lista de citas</a>
+</div>

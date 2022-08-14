@@ -1,9 +1,10 @@
-﻿using Front_Tarea3.Models;
+﻿using Front_Tarea3.Helpers;
+using Front_Tarea3.Models;
 
 namespace Front_Tarea3.Interfaces
 {
     public interface ILoginService
     {
-        Task<String> LoginUser(User user);
+        Task<ServiceResponse<User>> LoginUser(User user);
     }
 }

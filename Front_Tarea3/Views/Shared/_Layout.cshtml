@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using Front_Tarea3.Helpers;
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -23,11 +25,20 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Login" asp-action="Index">Login</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Login" asp-action="Login">Login</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Appointment" asp-action="Create">Create Appointment</a>
-                        </li>
+                        @if (TokenKeeper.Token != null)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Appointment" asp-action="Create">Crear cita</a>
+                            </li>
+                        }
+                        @if (TokenKeeper.Token != null)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Agenda" asp-action="Index">Gestionar mis citas</a>
+                            </li>
+                        }
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Login" asp-action="Logout">Logout</a>
                         </li>

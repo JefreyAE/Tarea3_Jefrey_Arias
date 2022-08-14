@@ -2,6 +2,7 @@
 using Front_Tarea3.Models;
 using System.Text;
 using Newtonsoft.Json;
+using Front_Tarea3.Helpers;
 
 namespace Front_Tarea3.Services
 {
@@ -18,9 +19,16 @@ namespace Front_Tarea3.Services
             this._httpClient.BaseAddress = new Uri(_urlbase);
         }
 
-        public Task<User> AddUser(User user)
+        public async Task<ServiceResponse<User>> AddUser(User user)
         {
-            throw new NotImplementedException();
+            var json = JsonConvert.SerializeObject(user);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await this._httpClient.PostAsync("api/User", content);
+            var json_response = await response.Content.ReadAsStringAsync();
+
+            var result = JsonConvert.DeserializeObject<ServiceResponse<User>>(json_response);
+            return result;
         }
 
         public Task<bool> DeleteUser(int id)
@@ -31,12 +39,7 @@ namespace Front_Tarea3.Services
         public Task<User> GetUser(int id)
         {
             throw new NotImplementedException();
-        }
-
-        public Task<User> LoginUser(int userId, DateTime birthday)
-        {
-            throw new NotImplementedException();
-        }
+        }   
 
         public Task<User> UpdateUser(User user)
         {

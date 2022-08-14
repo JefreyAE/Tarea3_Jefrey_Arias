@@ -1,0 +1,61 @@
+﻿@model Front_Tarea3.Models.User
+
+@{
+    ViewData["Title"] = "Registrar usuario";
+}
+
+<h1>Formulario de registro</h1>
+
+<h4>Por favor registrate para acceder a la aplicación</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        @if (ViewData["Message_error"] != null)
+        {
+            <label class="message_error alert alert-error">@ViewData["Message_error"]</label>     
+        }
+         @if (ViewData["Message_success"] != null)
+        {
+            <label class="message_success alert alert-success">@ViewData["Message_success"]</label>     
+        }
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label">Nombre</label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserId" class="control-label">Cédula</label>
+                <input asp-for="UserId" class="form-control" />
+                <span asp-validation-for="UserId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Birthday" class="control-label"></label>
+                <input type="date" asp-for="Birthday" class="form-control" />
+                <span asp-validation-for="Birthday" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Payment_method" class="control-label">Ingresa tu medio de pago preferido</label>
+                <select asp-for="Payment_method" class="form-control">
+                    <option value="Tarjeta">Tarjeta</option>
+                    <option value="Depósito">Depósito</option>
+                    <option value="SINPE Movil">SINPE Móvil</option>
+                </select>
+                <span asp-validation-for="Payment_method" class="text-danger"></span>
+            </div>
+            <br />
+            <div class="form-group">
+                <input type="submit" value="Registrarse" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-controller="Login" asp-action="Login">Regresar a la página de Login</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

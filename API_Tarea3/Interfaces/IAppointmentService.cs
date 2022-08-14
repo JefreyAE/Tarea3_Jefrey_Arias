@@ -11,6 +11,8 @@ namespace API_Tarea3.Interfaces
         Task<ServiceResponse<Appointment>> AddAppointment(Appointment appointment);
         Task<ServiceResponse<List<Appointment>>> GetAllAppointments();
         Task<ServiceResponse<List<Appointment>>> GetAppointmentListByUserId(int userId);
-        Task<ServiceResponse<List<Appointment>>> GetAppointmentListByDate(DateTime dateTime);
+        Task<ServiceResponse<string>> GetAppointmentListByDateAndUserId(DateTime dateTime, string specialty, int UserId);
+
+        Task<ServiceResponse<Appointment>> GetAppointmentByDate(DateTime dateTime);
     }
 }

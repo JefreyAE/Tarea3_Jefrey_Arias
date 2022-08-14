@@ -8,15 +8,15 @@ namespace Front_Tarea3.Controllers
 {
     public class LoginController : Controller
     {
-        public ILoginService _loginservice;
+        public ILoginService _loginService;
         
         public LoginController(ILoginService loginService)
         {
-            this._loginservice = loginService;
+            this._loginService = loginService;
         }
 
         // GET: LoginController
-        public ActionResult Index()
+        public ActionResult Login()
         {
             return View();
         }
@@ -31,12 +31,24 @@ namespace Front_Tarea3.Controllers
                 user.UserId = Convert.ToInt32(collection["UserId"]);
                 user.Birthday = Convert.ToDateTime(collection["Birthday"]);
 
-                TokenKeeper.Token = await this._loginservice.LoginUser(user);
-                return RedirectToAction("Create", "Appointment");
+                var response = await this._loginService.LoginUser(user);
+
+                if(response.Success == true)
+                {
+                    TokenKeeper.Token = response.Message;
+                    TokenKeeper.User = response.Data;
+                    return RedirectToAction("Create", "Appointment");
+                }
+                else
+                {
+                    ViewData["Message"] = "Las credenciales ingresadas no son válidas.";
+                    return View();
+                }
+                
             }
             catch(Exception ex)
             {
-                var x = ex.Message;
+                ViewData["Message"] = ex.Message;
                 return View();
             }
         }
@@ -45,7 +57,7 @@ namespace Front_Tarea3.Controllers
         public ActionResult Logout()
         {
             TokenKeeper.Token = null;
-            return RedirectToAction("Index", "Login");
+            return RedirectToAction("Login", "Login");
         }
 
         // GET: LoginController/Details/5

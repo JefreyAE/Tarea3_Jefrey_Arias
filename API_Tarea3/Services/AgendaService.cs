@@ -71,9 +71,35 @@ namespace API_Tarea3.Services
             try
             {
                 var agenda = await this.appDbContext.Agendas.FirstOrDefaultAsync(a => a.Id == id);
+                agenda.Appointment = await this.appDbContext.Appointments.FirstOrDefaultAsync(a => a.Id == agenda.AppointmentId);
                 response.Data = agenda;
                 return response;
             }catch(Exception ex)
+            {
+                response.Success = false;
+                response.Message = ex.Message;
+                return response;
+            }
+        }
+
+        public async Task<ServiceResponse<bool>> checkAgendaBySpecialtyAndUser(int userId, string specialty)
+        {
+            var response = new ServiceResponse<bool>();
+
+            try
+            {
+                var agenda = await this.appDbContext.Agendas.Where(a => a.UserId == userId && a.Specialty == specialty && a.State == "Activa").ToListAsync();
+                if(agenda.Count() > 0)
+                {
+                    response.Data = true;
+                    return response;
+                }
+                    response.Data = false;
+                    response.Success = false;
+                    response.Message = "Data not found";
+                    return response; 
+            }
+            catch (Exception ex)
             {
                 response.Success = false;
                 response.Message = ex.Message;
@@ -89,6 +115,29 @@ namespace API_Tarea3.Services
             {
                 var agenda = await this.appDbContext.Agendas.FirstOrDefaultAsync(a => a.AppointmentId == id);
                 response.Data = agenda;
+                return response;
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.Message = ex.Message;
+                return response;
+            }
+        }
+
+        public async Task<ServiceResponse<List<Agenda>>> GetAgendaByUser(int userId)
+        {
+            var response = new ServiceResponse<List<Agenda>> ();
+            try
+            {
+                var agendas = await this.appDbContext.Agendas
+                    .Where(a => a.UserId == userId)
+                    .ToListAsync();
+                foreach(Agenda agenda in agendas)
+                {
+                    agenda.Appointment = await this.appDbContext.Appointments.FirstOrDefaultAsync(a => a.Id == agenda.AppointmentId);
+                }
+                response.Data = agendas;
                 return response;
             }
             catch (Exception ex)

@@ -51,11 +51,19 @@ namespace API_Tarea3.Controllers
             return response.Success == true ? Ok(response) : StatusCode(500, response);
         }
 
-        // GET api/<AppointmentController>/appointmentsbydate/5
-        [HttpGet("appointmentsbydate/{appDate}")]
-        public async Task<ActionResult<ServiceResponse<List<Appointment>>>> GetAppointmentsByDate(DateTime appDate)
+        // POST api/<AppointmentController>/appointmentsListBydateUser
+        [HttpPost("appointmentsListBydateUser/{specialty}/{userId}")]
+        public async Task<ActionResult<ServiceResponse<String>>> GetAppointmentListByDateAndUserId([FromBody] Appointment appointment, string specialty, int userId)
         {
-            var response = await this._appointmentService.GetAppointmentListByDate(appDate);
+            var response = await this._appointmentService.GetAppointmentListByDateAndUserId(appointment.Appointment_date, specialty, userId);
+            return response.Success == true ? Ok(response) : StatusCode(500, response);
+        }
+
+        // POST api/<AppointmentController>/appointmentByDate
+        [HttpPost("appointmentByDate")]
+        public async Task<ActionResult<ServiceResponse<Appointment>>> GetAppointmentByDate([FromBody] Appointment appointment)
+        {
+            var response = await this._appointmentService.GetAppointmentByDate(appointment.Appointment_date);
             return response.Success == true ? Ok(response) : StatusCode(500, response);
         }
 

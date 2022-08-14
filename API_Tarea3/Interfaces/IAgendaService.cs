@@ -10,7 +10,9 @@ namespace API_Tarea3.Interfaces
         Task<ServiceResponse<bool>> DeleteAgenda(int id);
         Task<ServiceResponse<Agenda>> AddAgenda(Agenda agenda);
         Task<ServiceResponse<List<Agenda>>> GetAllAgenda();
+        Task<ServiceResponse<List<Agenda>>> GetAgendaByUser(int userId);
         Task<ServiceResponse<Agenda>> GetAgendaByAppointmentId (int id);
+        Task<ServiceResponse<bool>> checkAgendaBySpecialtyAndUser(int userId, string specialty);
 
     }
 }

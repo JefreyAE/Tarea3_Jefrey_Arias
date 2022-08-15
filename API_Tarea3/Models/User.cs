@@ -10,7 +10,7 @@ namespace API_Tarea3.Models
         public DateTime Birthday { get; set; }  
         public string? Payment_method { get; set; }  
 
-        public List<Appointment>? Appointments { get; set; }
+        //public List<Appointment>? Appointments { get; set; }
 
         public User()
         {

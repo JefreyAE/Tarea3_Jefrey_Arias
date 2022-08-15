@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API_Tarea3.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20220731201917_agenda")]
-    partial class agenda
+    [Migration("20220815014642_inicial")]
+    partial class inicial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -38,10 +38,19 @@ namespace API_Tarea3.Migrations
                     b.Property<int>("Hour")
                         .HasColumnType("int");
 
+                    b.Property<string>("Specialty")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("State")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("AppointmentId")
-                        .IsUnique();
+                    b.HasIndex("AppointmentId");
 
                     b.ToTable("Agendas");
                 });
@@ -57,20 +66,10 @@ namespace API_Tarea3.Migrations
                     b.Property<DateTime>("Appointment_date")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Specialty")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("State")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<DateTime>("Created_at")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Appointments");
                 });
@@ -87,11 +86,9 @@ namespace API_Tarea3.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Payment_method")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("UserId")
@@ -104,31 +101,13 @@ namespace API_Tarea3.Migrations
 
             modelBuilder.Entity("API_Tarea3.Models.Agenda", b =>
                 {
-                    b.HasOne("API_Tarea3.Models.Appointment", null)
-                        .WithOne("Agenda")
-                        .HasForeignKey("API_Tarea3.Models.Agenda", "AppointmentId")
+                    b.HasOne("API_Tarea3.Models.Appointment", "Appointment")
+                        .WithMany()
+                        .HasForeignKey("AppointmentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
 
-            modelBuilder.Entity("API_Tarea3.Models.Appointment", b =>
-                {
-                    b.HasOne("API_Tarea3.Models.User", null)
-                        .WithMany("Appointments")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("API_Tarea3.Models.Appointment", b =>
-                {
-                    b.Navigation("Agenda")
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("API_Tarea3.Models.User", b =>
-                {
-                    b.Navigation("Appointments");
+                    b.Navigation("Appointment");
                 });
 #pragma warning restore 612, 618
         }

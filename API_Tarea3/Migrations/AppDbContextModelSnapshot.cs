@@ -36,10 +36,19 @@ namespace API_Tarea3.Migrations
                     b.Property<int>("Hour")
                         .HasColumnType("int");
 
+                    b.Property<string>("Specialty")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("State")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("AppointmentId")
-                        .IsUnique();
+                    b.HasIndex("AppointmentId");
 
                     b.ToTable("Agendas");
                 });
@@ -55,20 +64,10 @@ namespace API_Tarea3.Migrations
                     b.Property<DateTime>("Appointment_date")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Specialty")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("State")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<DateTime>("Created_at")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Appointments");
                 });
@@ -100,30 +99,13 @@ namespace API_Tarea3.Migrations
 
             modelBuilder.Entity("API_Tarea3.Models.Agenda", b =>
                 {
-                    b.HasOne("API_Tarea3.Models.Appointment", null)
-                        .WithOne("Agenda")
-                        .HasForeignKey("API_Tarea3.Models.Agenda", "AppointmentId")
+                    b.HasOne("API_Tarea3.Models.Appointment", "Appointment")
+                        .WithMany()
+                        .HasForeignKey("AppointmentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
 
-            modelBuilder.Entity("API_Tarea3.Models.Appointment", b =>
-                {
-                    b.HasOne("API_Tarea3.Models.User", null)
-                        .WithMany("Appointments")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("API_Tarea3.Models.Appointment", b =>
-                {
-                    b.Navigation("Agenda");
-                });
-
-            modelBuilder.Entity("API_Tarea3.Models.User", b =>
-                {
-                    b.Navigation("Appointments");
+                    b.Navigation("Appointment");
                 });
 #pragma warning restore 612, 618
         }

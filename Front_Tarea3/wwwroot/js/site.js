@@ -89,7 +89,7 @@ if (form_appointment != null) {
             input_Specialty.disabled = false;
             var difDays = (dateSelected.getTime() - dateNow.getTime()) / (1000 * 60 * 60 * 24);
 
-            if (difDays < 0) {
+            if (difDays < -1) {
                 alert("Solo puede seleccionar una fecha para su cita de mañana en adelante.");
                 btn_appointment.disabled = true;
                 input_Hour.disabled = true;
